@@ -10,15 +10,15 @@ if [ "$prev_count" -lt "$count" ] ; then
 
 # Create email
 
-SUBJECT="WARNING: Errors found in log on "`date --date='today' '+%b %e'`""
+SUBJECT="[Warning]: Errors found in syslog on "`date --date='today' '+%b %e'`""
 
-MESSAGE="/tmp/logs.txt"
+MESSAGE="/tmp/os_syslog_alert_logs.txt"
 
 TO="Edit with receiver emails"
 
-echo "ATTENTION: Errors are found in /var/log/syslog." >> $MESSAGE
+echo "Errors found in /var/log/syslog." >> $MESSAGE
 
-echo  "Hostname: `hostname`" >> $MESSAGE
+echo  "Server Hostname: `hostname`" >> $MESSAGE
 
 echo -e "\n" >> $MESSAGE
 
