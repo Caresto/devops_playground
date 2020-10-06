@@ -1,0 +1,28 @@
+version: "3.5"
+services:
+  db-primary:
+    image: postgres:latest
+    restart: on-failure
+    user: '999'
+    command: ["postgres",
+              "-carchive_mode=on",
+              "-cwal_level=replica",
+              "-carchive_command=test ! -f /postgres-wal-dir/%f && cp %p /postgres-wal-dir/%f"]
+    networks:
+      - postgres-db-network
+    volumes:
+      - type: bind
+        source: /volumes/postgres-data-dir
+        target: /postgres-data-dir
+      - type: bind
+        source: /volumes/postgres-wal-dir
+        target: /postgres-wal-dir
+    environment:
+      POSTGRES_PASSWORD: my-secure-password
+      PGDATA: /postgres-data-dir
+
+networks:
+  postgres-db-network:
+    driver: overlay
+    name: app-db-network
+    attachable: true

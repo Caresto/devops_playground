@@ -1,0 +1,25 @@
+version: "3.5"
+services:
+  db-standby:
+    image: postgres:latest
+    restart: on-failure
+    user: '999'
+    command: ["postgres"]
+    networks:
+      - postgres-db-network
+    volumes:
+      - type: bind
+        source: /volumes/postgres-data-dir-two
+        target: /postgres-data-dir
+      - type: bind
+        source: /volumes/postgres-wal-dir
+        target: /postgres-wal-dir
+    environment:
+      POSTGRES_PASSWORD: my-secure-password
+      PGDATA: /postgres-data-dir
+
+networks:
+  postgres-db-network:
+    driver: overlay
+    name: app-db-network
+    attachable: true
