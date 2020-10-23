@@ -1,0 +1,56 @@
+version: "3.8"
+networks:
+  network:
+services:
+  server-0:
+    environment:
+      COUCHDB_PASSWORD: -pbkdf2-847043acc65626c8eb98da6d78682fbc493a1787,f7b1a3e4b624f4f0bbfe87e96841eda0,10
+      COUCHDB_SECRET: 0123456789abcdef0123456789abcdef
+      COUCHDB_USER: admin
+      NODENAME: couchdb-0
+    image: couchdb:latest
+    networks:
+      network:
+        aliases:
+          - couchdb-0.docker.com
+    ports:
+      - "5984:5984"
+      - "5986:5986"
+    volumes:
+      - "volume-0:/opt/couchdb/data"
+  server-1:
+    environment:
+      COUCHDB_PASSWORD: -pbkdf2-847043acc65626c8eb98da6d78682fbc493a1787,f7b1a3e4b624f4f0bbfe87e96841eda0,10
+      COUCHDB_SECRET: 0123456789abcdef0123456789abcdef
+      COUCHDB_USER: admin
+      NODENAME: couchdb-1
+    image: couchdb:latest
+    networks:
+      network:
+        aliases:
+          - couchdb-1.docker.com
+    ports:
+      - "15984:5984"
+      - "15986:5986"
+    volumes:
+      - "volume-1:/opt/couchdb/data"
+  server-2:
+    environment:
+      COUCHDB_PASSWORD: -pbkdf2-847043acc65626c8eb98da6d78682fbc493a1787,f7b1a3e4b624f4f0bbfe87e96841eda0,10
+      COUCHDB_SECRET: 0123456789abcdef0123456789abcdef
+      COUCHDB_USER: admin
+      NODENAME: couchdb-2
+    image: couchdb:latest
+    networks:
+      network:
+        aliases:
+          - couchdb-2.docker.com
+    ports:
+      - "25984:5984"
+      - "25986:5986"
+    volumes:
+      - "volume-2:/opt/couchdb/data"
+volumes:
+  volume-0:
+  volume-1:
+  volume-2:
