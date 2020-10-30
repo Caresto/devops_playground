@@ -4,10 +4,11 @@ networks:
 services:
   server-0:
     environment:
-      COUCHDB_PASSWORD: -pbkdf2-847043acc65626c8eb98da6d78682fbc493a1787,f7b1a3e4b624f4f0bbfe87e96841eda0,10
+      COUCHDB_PASSWORD: password
       COUCHDB_SECRET: 0123456789abcdef0123456789abcdef
       COUCHDB_USER: admin
       NODENAME: couchdb-0
+      ERL_FLAGS: "-setcookie obligatorycookie"
     image: couchdb:latest
     networks:
       network:
@@ -15,15 +16,16 @@ services:
           - couchdb-0.docker.com
     ports:
       - "5984:5984"
-      - "5986:5986"
     volumes:
       - "volume-0:/opt/couchdb/data"
+      - "cfg-couch-0:/opt/couchdb/etc/local.d"
   server-1:
     environment:
-      COUCHDB_PASSWORD: -pbkdf2-847043acc65626c8eb98da6d78682fbc493a1787,f7b1a3e4b624f4f0bbfe87e96841eda0,10
+      COUCHDB_PASSWORD: password
       COUCHDB_SECRET: 0123456789abcdef0123456789abcdef
       COUCHDB_USER: admin
       NODENAME: couchdb-1
+      ERL_FLAGS: "-setcookie obligatorycookie"
     image: couchdb:latest
     networks:
       network:
@@ -31,15 +33,16 @@ services:
           - couchdb-1.docker.com
     ports:
       - "15984:5984"
-      - "15986:5986"
     volumes:
       - "volume-1:/opt/couchdb/data"
+      - "cfg-couch-1:/opt/couchdb/etc/local.d"
   server-2:
     environment:
-      COUCHDB_PASSWORD: -pbkdf2-847043acc65626c8eb98da6d78682fbc493a1787,f7b1a3e4b624f4f0bbfe87e96841eda0,10
+      COUCHDB_PASSWORD: password
       COUCHDB_SECRET: 0123456789abcdef0123456789abcdef
       COUCHDB_USER: admin
       NODENAME: couchdb-2
+      ERL_FLAGS: "-setcookie obligatorycookie"
     image: couchdb:latest
     networks:
       network:
@@ -47,10 +50,13 @@ services:
           - couchdb-2.docker.com
     ports:
       - "25984:5984"
-      - "25986:5986"
     volumes:
       - "volume-2:/opt/couchdb/data"
+      - "cfg-couch-2:/opt/couchdb/etc/local.d"
 volumes:
   volume-0:
+  cfg-couch-0:
   volume-1:
+  cfg-couch-1:
   volume-2:
+  cfg-couch-2:
