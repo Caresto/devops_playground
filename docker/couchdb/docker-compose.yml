@@ -2,54 +2,54 @@ version: "3.8"
 networks:
   network:
 services:
-  server-0:
+  couchdb-0:
     environment:
-      COUCHDB_PASSWORD: password
-      COUCHDB_SECRET: 0123456789abcdef0123456789abcdef
-      COUCHDB_USER: admin
-      NODENAME: couchdb-0
-      ERL_FLAGS: "-setcookie obligatorycookie"
+      COUCHDB_PASSWORD: ${COUCHDB_PASSWORD}
+      COUCHDB_SECRET: ${COUCHDB_SECRET}
+      COUCHDB_USER: ${COUCHDB_USER}
+      NODENAME: couchdb-0.${COMPOSE_PROJECT_NAME}
+      ERL_FLAGS: "-setcookie ${COUCHDB_COOKIE}"
     image: couchdb:latest
     networks:
       network:
         aliases:
-          - couchdb-0.docker.com
+          - couchdb-0.${COMPOSE_PROJECT_NAME}
     ports:
-      - "5984:5984"
+      - "${PORT_BASE}0:5984"
     volumes:
       - "volume-0:/opt/couchdb/data"
       - "cfg-couch-0:/opt/couchdb/etc/local.d"
-  server-1:
+  couchdb-1:
     environment:
-      COUCHDB_PASSWORD: password
-      COUCHDB_SECRET: 0123456789abcdef0123456789abcdef
-      COUCHDB_USER: admin
-      NODENAME: couchdb-1
-      ERL_FLAGS: "-setcookie obligatorycookie"
+      COUCHDB_PASSWORD: ${COUCHDB_PASSWORD}
+      COUCHDB_SECRET: ${COUCHDB_SECRET}
+      COUCHDB_USER: ${COUCHDB_USER}
+      NODENAME: couchdb-1.${COMPOSE_PROJECT_NAME}
+      ERL_FLAGS: "-setcookie ${COUCHDB_COOKIE}"
     image: couchdb:latest
     networks:
       network:
         aliases:
-          - couchdb-1.docker.com
+          - couchdb-1.${COMPOSE_PROJECT_NAME}
     ports:
-      - "15984:5984"
+      - "${PORT_BASE}1:5984"
     volumes:
       - "volume-1:/opt/couchdb/data"
       - "cfg-couch-1:/opt/couchdb/etc/local.d"
-  server-2:
+  couchdb-2:
     environment:
-      COUCHDB_PASSWORD: password
-      COUCHDB_SECRET: 0123456789abcdef0123456789abcdef
-      COUCHDB_USER: admin
-      NODENAME: couchdb-2
-      ERL_FLAGS: "-setcookie obligatorycookie"
+      COUCHDB_PASSWORD: ${COUCHDB_PASSWORD}
+      COUCHDB_SECRET: ${COUCHDB_SECRET}
+      COUCHDB_USER: ${COUCHDB_USER}
+      NODENAME: couchdb-2.${COMPOSE_PROJECT_NAME}
+      ERL_FLAGS: "-setcookie ${COUCHDB_COOKIE}"
     image: couchdb:latest
     networks:
       network:
         aliases:
-          - couchdb-2.docker.com
+          - couchdb-2.${COMPOSE_PROJECT_NAME}
     ports:
-      - "25984:5984"
+      - "${PORT_BASE}2:5984"
     volumes:
       - "volume-2:/opt/couchdb/data"
       - "cfg-couch-2:/opt/couchdb/etc/local.d"
