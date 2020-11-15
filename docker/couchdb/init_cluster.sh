@@ -53,7 +53,7 @@ echo Finished creating users
 
 echo Creating the database products and populating the data:
 curl -X PUT "http://${COUCHDB_USER}:${COUCHDB_PASSWORD}@127.0.0.1:${PORT_BASE}0/productos"
-curl  -X PUT -H 'Content-Type: application/json' "http://${COUCHDB_USER}:${COUCHDB_PASSWORD}@127.0.0.1:${PORT_BASE}0/productos/_security" -d '{"admins":{"names":["superuser"],"roles":["admins"]},"members":{"names": ["lector0","lector1","lector2"],"roles": ["developers"]}}'
+curl -X PUT -H 'Content-Type: application/json' "http://${COUCHDB_USER}:${COUCHDB_PASSWORD}@127.0.0.1:${PORT_BASE}0/productos/_security" -d '{"admins":{"names":["superuser"],"roles":["admins"]},"members":{"names": ["lector0","lector1","lector2"],"roles": ["developers"]}}'
 curl -X POST -H "Content-Type: application/json" "http://${COUCHDB_USER}:${COUCHDB_PASSWORD}@127.0.0.1:${PORT_BASE}0/productos/_bulk_docs" -d '{
   "docs":[
     {"sku":43900,"name":"'"Duracell - AAA Batteries (4-Pack)"'","type":"'"HardGood"'","price":5.49,"upc":"'"041333424019"'","shipping":5.49},
