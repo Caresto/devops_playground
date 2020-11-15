@@ -1,6 +1,7 @@
 #!/bin/bash
 source .env
 
+IFS=","
 COORDINATOR_NODE="0"
 ADDITIONAL_NODES="1,2"
 ALL_NODES="${COORDINATOR_NODE},${ADDITIONAL_NODES}"
@@ -30,6 +31,18 @@ curl "http://${COUCHDB_USER}:${COUCHDB_PASSWORD}@127.0.0.1:${PORT_BASE}0/_cluste
 
 curl "http://${COUCHDB_USER}:${COUCHDB_PASSWORD}@127.0.0.1:${PORT_BASE}0/_membership"
 
+echo Creating master tables:
+curl -X PUT "http://${COUCHDB_USER}:${COUCHDB_PASSWORD}@127.0.0.1:${PORT_BASE}0/_users"
+curl -X PUT "http://${COUCHDB_USER}:${COUCHDB_PASSWORD}@127.0.0.1:${PORT_BASE}0/_replicator"
+
+echo Setting replication of users:
+curl -X POST -H "Content-Type: application/json" "http://admin:password@localhost:59840/_replicate" -d '{"source": "'"http://admin:password@couchdb-0.BDD-Lab:5984/_users"'", "target": "'"http://admin:password@couchdb-1.BDD-Lab:5984/_users"'", "create_target": true, "continuous": true} '
+curl -X POST -H "Content-Type: application/json" "http://admin:password@localhost:59840/_replicate" -d '{"source": "'"http://admin:password@couchdb-0.BDD-Lab:5984/_users"'", "target": "'"http://admin:password@couchdb-2.BDD-Lab:5984/_users"'", "create_target": true, "continuous": true} '
+curl -X POST -H "Content-Type: application/json" "http://admin:password@localhost:59841/_replicate" -d '{"source": "'"http://admin:password@couchdb-1.BDD-Lab:5984/_users"'", "target": "'"http://admin:password@couchdb-0.BDD-Lab:5984/_users"'", "create_target": true, "continuous": true} '
+curl -X POST -H "Content-Type: application/json" "http://admin:password@localhost:59841/_replicate" -d '{"source": "'"http://admin:password@couchdb-1.BDD-Lab:5984/_users"'", "target": "'"http://admin:password@couchdb-2.BDD-Lab:5984/_users"'", "create_target": true, "continuous": true} '
+curl -X POST -H "Content-Type: application/json" "http://admin:password@localhost:59842/_replicate" -d '{"source": "'"http://admin:password@couchdb-2.BDD-Lab:5984/_users"'", "target": "'"http://admin:password@couchdb-0.BDD-Lab:5984/_users"'", "create_target": true, "continuous": true} '
+curl -X POST -H "Content-Type: application/json" "http://admin:password@localhost:59842/_replicate" -d '{"source": "'"http://admin:password@couchdb-2.BDD-Lab:5984/_users"'", "target": "'"http://admin:password@couchdb-1.BDD-Lab:5984/_users"'", "create_target": true, "continuous": true} '
+echo Done
 
 echo Your cluster nodes are available at:
 for NODE_ID in ${ALL_NODES}
